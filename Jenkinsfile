@@ -16,11 +16,13 @@ pipeline {
                 sh "docker build -t jenkins ."
             }
         }
-        steps("Push to ECR") {
-            withAWS(credentials: 'aws', region: 'us-east-1') {
-                sh "docker tag jenkins:latest 556524976393.dkr.ecr.us-east-1.amazonaws.com/jenkins:latest"
-                sh "docker push 556524976393.dkr.ecr.us-east-1.amazonaws.com/jenkins:latest"
-              }
+        stage("Push to ECR"){
+            steps{
+                withAWS(credentials: 'aws', region: 'us-east-1') {
+                    sh "docker tag jenkins:latest 556524976393.dkr.ecr.us-east-1.amazonaws.com/jenkins:latest"
+                    sh "docker push 556524976393.dkr.ecr.us-east-1.amazonaws.com/jenkins:latest"
+                  }
+            }
         }
     }
 }
